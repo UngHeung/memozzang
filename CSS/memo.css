@@ -127,6 +127,10 @@ h1 {
     max-width: 540px;
 }
 
+.input-wrapper {
+    position: relative;
+}
+
 #input_title,
 #input_content {
     width: 100%;
@@ -156,6 +160,13 @@ h1 {
 #input_content {
     height: 604px;
     resize: none;
+}
+
+.content-length {
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    color: white;
 }
 
 /* ===== button wraper ===== */
@@ -273,6 +284,11 @@ h1 {
     background-color: var(--color-yellow);
 
     overflow: auto;
+    white-space: -moz-pre-wrap;
+    white-space: -pre-wrap;
+    white-space: -o-pre-wrap;
+    white-space: pre-wrap;
+    word-wrap: break-word;
 }
 
 .memo-list pre::-webkit-scrollbar {
