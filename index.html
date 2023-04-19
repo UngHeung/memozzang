@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ko-KR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메모장</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="CSS/memo.css">
+</head>
+
+<body>
+    <header>
+        <h1>MEMOZZANG</h1>
+    </header>
+
+    <main>
+        <div class="left-side div">
+            <section class="input-wrapper wrap">
+                <h2 class="hidden">메모 입력</h2>
+                <input type="text" id="input_title" placeholder="제목을 입력하세요">
+                <textarea type="text" id="input_content" placeholder="내용을 입력하세요"></textarea>
+            </section>
+
+            <section class="button-wrapper wrap">
+                <button type="button" class="button" id="reset_button">초기화</button>
+                <button type="button" class="button" id="regi_button">등록</button>
+            </section>
+        </div>
+
+        <div class="right-side div">
+            <section class="output-wrapper wrap">
+                <h2 class="hidden">메모 화면</h2>
+                <ul class="memo-list">
+                    <li>
+                        <h3>메모의 제목</h3>
+                        <p>메모 내용</p>
+                    </li>
+                    <li>
+                        <h3>메모의 제목</h3>
+                        <p>메모 내용</p>
+                    </li>
+                    <li>
+                        <h3>메모의 제목</h3>
+                        <p>메모 내용</p>
+                    </li>
+                    <li>
+                        <h3>메모의 제목</h3>
+                        <p>메모 내용</p>
+                    </li>
+                    <li>
+                        <h3>메모의 제목</h3>
+                        <p>메모 내용</p>
+                    </li>
+                </ul>
+            </section>
+        </div>
+    </main>
+</body>
+<script src="JS/memo.js"></script>
+
+</html>
