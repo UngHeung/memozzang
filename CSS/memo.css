@@ -87,7 +87,7 @@ header {
 
 h1 {
     width: 100%;
-    max-width: 1340px;
+    max-width: 1300px;
     margin: 0 auto;
 
     background-color: white;
@@ -240,6 +240,7 @@ h1 {
 }
 
 .memo-list h3 {
+    position: relative;
     padding: 0 var(--gap-content);
     height: 50px;
 
@@ -250,7 +251,12 @@ h1 {
 }
 
 .memo-list h3:after {
-    content: "";
+    content: url(../images/cleseX.svg);
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    width: 30px;
+    height: 30px;
 }
 
 .memo-list p {
@@ -261,6 +267,11 @@ h1 {
 }
 
 @media screen and (max-width: 1100px) {
+    main {
+        margin: 0;
+        padding: var(--gap-content);
+    }
+
     .memo-list li {
         width: 100%;
     }
@@ -286,7 +297,18 @@ h1 {
     }
 
     .input-wrapper,
-    .button-wrapper {
+    .button-wrapper,
+    .output-wrapper {
         max-width: 100%;
+    }
+
+    .memo-list li {
+        width: 48%;
+    }
+}
+
+@media screen and (max-width: 630px) {
+    .memo-list li {
+        width: 100%;
     }
 }
