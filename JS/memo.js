@@ -4,6 +4,8 @@ const contentLength = document.querySelector(".content-length");
 const memoList = document.querySelector(".memo-list");
 const emptyList = document.querySelector(".empty-list");
 
+const listOrder = document.getElementById("list_order");
+const listDeleteBtn = document.querySelector(".list-delete");
 const regiBtn = document.getElementById("regi_button");
 const resetBtn = document.getElementById("reset_button");
 
@@ -26,9 +28,22 @@ const reset = {
     contentLength: () => {
         contentLength.textContent = initContent;
     },
+
+    // 리스트 화면 초기화
+    display: () => {
+        memoList.innerHTML = "";
+    },
+
+    // 리스트 전체 초기화
+    listAll: () => {
+        memoList.innerHTML = "";
+        allMemo.splice(0, allMemo.length);
+        localStorage.clear();
+        check.emptyList();
+    },
 };
 
-function resetAll() {
+function resetInput() {
     reset.title();
     reset.content();
     reset.contentLength();
@@ -63,6 +78,11 @@ const check = {
         return true;
     },
 
+    // 정렬 확인
+    order: () => {
+        return listOrder.checked;
+    },
+
     // 내용 길이 확인
     contentLength: (length) => {
         if (length > maxLength) {
@@ -71,11 +91,20 @@ const check = {
         }
         return true;
     },
+
+    // 전체삭제 확인
+    resetAll: () => {
+        if (confirm("메모를 모두 삭제하시겠습니까?")) {
+            alert("메모가 모두 삭제되었습니다.");
+            return true;
+        }
+        return false;
+    },
 };
 
 let allMemo = JSON.parse(localStorage.getItem("allMemo"));
 allMemo = allMemo ?? [];
-loadMemo();
+loadMemo("none");
 
 function getTitle() {
     return title.value;
@@ -109,7 +138,7 @@ const regiBtnEvent = (() => {
 
 const resetBtnEvent = (() => {
     resetBtn.addEventListener("click", () => {
-        resetAll();
+        resetInput();
         title.focus();
     });
 })();
@@ -122,6 +151,22 @@ const contentLengthEvent = (() => {
             length -= 1;
         }
         contentLength.innerText = `${length}/${maxLength}`;
+    });
+})();
+
+const resetAllEvent = (() => {
+    listDeleteBtn.addEventListener("click", () => {
+        if (check.resetAll()) {
+            reset.listAll();
+            title.focus();
+        }
+    });
+})();
+
+const listOrderEvent = (() => {
+    listOrder.addEventListener("change", () => {
+        reset.display();
+        loadMemo();
     });
 })();
 
@@ -163,12 +208,16 @@ function addItem(type, memo, code) {
     </svg>
     `;
 
-    resetAll();
+    resetInput();
 
     item.appendChild(memoTitle);
     item.appendChild(memoDeleteBtn);
     item.appendChild(memoContent);
-    memoList.appendChild(item);
+    if (check.order()) {
+        memoList.append(item);
+    } else {
+        memoList.prepend(item);
+    }
     check.emptyList();
 
     memoDeleteBtn.addEventListener("click", () => {
