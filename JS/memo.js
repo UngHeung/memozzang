@@ -89,24 +89,31 @@ function getContent() {
     return content.value;
 }
 
+const contentBoxKeyEvent = (() => {
+    content.addEventListener("keydown", (e) => {
+        if (e.ctrlKey === true && e.key === "Enter") {
+            regiBtn.click();
+        }
+    });
+})();
+
 /* button event */
-function regiBtnEvent() {
+const regiBtnEvent = (() => {
     regiBtn.addEventListener("click", () => {
         if (check.title() && check.content()) {
             addItem("add");
         }
+        title.focus();
     });
-}
-regiBtnEvent();
+})();
 
-function resetBtnEvent() {
+const resetBtnEvent = (() => {
     resetBtn.addEventListener("click", () => {
         resetAll();
     });
-}
-resetBtnEvent();
+})();
 
-function contentLengthEvent() {
+const contentLengthEvent = (() => {
     content.addEventListener("keyup", () => {
         let length = content.value.length;
         if (!check.contentLength(length)) {
@@ -115,8 +122,7 @@ function contentLengthEvent() {
         }
         contentLength.innerText = `${length}/${maxLength}`;
     });
-}
-contentLengthEvent();
+})();
 
 /* load memo */
 function loadMemo() {
