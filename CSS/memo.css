@@ -11,9 +11,11 @@
     --ft-size-title: 30px;
 
     --color-black: #333333;
-    --color-blue: rgb(88, 125, 255);
+    --color-blue: #A7BBFF;
+    --color-blue-dk: #587dff;
+
     --color-yellow: #FFFCB0;
-    --color-title: #feea6d;
+    --color-yellow-dk: #feea6d;
     --color-ph: #cccccc;
 
     --shadow-10: 10px 10px #333;
@@ -37,7 +39,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-    background-color: var(--color-blue);
+    background-color: var(--color-blue-dk);
     border-radius: var(--border-rd);
 }
 
@@ -47,6 +49,10 @@ li {
 
 button {
     all: unset;
+}
+
+input:focus {
+    outline: none;
 }
 
 main {
@@ -63,7 +69,7 @@ main {
     position: absolute;
     width: 1px;
     height: 1px;
-    margin: -1;
+    margin: -1px;
 
     font-size: 1px;
 
@@ -97,8 +103,8 @@ h1 {
 
     font-size: var(--ft-size-h1);
     text-align: center;
-    color: var(--color-blue);
-    text-shadow: 5px 5px var(--color-title);
+    color: var(--color-blue-dk);
+    text-shadow: 5px 5px var(--color-yellow-dk);
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #333;
 
@@ -143,7 +149,7 @@ h1 {
     width: 100%;
     padding: 10px;
 
-    background-color: var(--color-blue);
+    background-color: var(--color-blue-dk);
     border-radius: var(--border-rd);
     border: var(--border-st);
     box-shadow: var(--shadow-inset-5);
@@ -165,8 +171,17 @@ h1 {
 }
 
 #input_content {
-    height: 604px;
+    height: 479px;
     resize: none;
+}
+
+#input_content::-webkit-scrollbar {
+    width: 10px;
+}
+
+#input_content::-webkit-scrollbar-thumb {
+    background-color: var(--color-blue);
+    border-radius: var(--border-rd);
 }
 
 .content-length {
@@ -174,6 +189,78 @@ h1 {
     right: 40px;
     bottom: 40px;
     color: white;
+}
+
+/* ===== option wrapper ===== */
+.option-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--gap-content);
+}
+
+.list-delete {
+    width: 220px;
+    height: 60px;
+
+    border-radius: var(--border-rd);
+    border: var(--border-st);
+    box-sizing: border-box;
+    box-shadow: var(--shadow-3);
+
+    color: rgb(248, 100, 100);
+    text-align: center;
+}
+
+.list-delete:focus {
+    outline: 7px solid rgba(248, 100, 100, .5);
+}
+
+#list_order:focus+.list-order {
+    outline: 7px solid rgba(88, 125, 255, .5);
+}
+
+#list_order:checked+.list-order .order-state {
+    left: 50%;
+}
+
+.list-order {
+    position: relative;
+    display: block;
+    width: 220px;
+    height: 60px;
+    padding: 0 30px;
+
+    box-shadow: var(--shadow-inset-5);
+    border-radius: 30px;
+    border: var(--border-st);
+    background-color: var(--color-blue-dk);
+
+    line-height: 60px;
+    color: white;
+
+    overflow: hidden;
+    transition: outline .3s;
+}
+
+.list-order>span:first-child {
+    float: left;
+}
+
+.list-order>span:last-child {
+    float: right;
+}
+
+.order-state {
+    position: absolute;
+    left: 0;
+    display: block;
+    width: 50%;
+    height: 60px;
+    border-radius: 30px;
+    box-shadow: var(--shadow-3);
+    background-color: white;
+    transition: left .3s;
 }
 
 /* ===== button wraper ===== */
@@ -203,13 +290,13 @@ h1 {
 }
 
 #reset_button {
-    background-color: var(--color-blue);
+    background-color: var(--color-blue-dk);
     color: white;
 }
 
 #regi_button {
     background-color: white;
-    color: var(--color-blue);
+    color: var(--color-blue-dk);
 }
 
 /* ===== output wrapper ===== */
@@ -224,13 +311,8 @@ h1 {
     width: 10px;
 }
 
-.output-wrapper::-webkit-scrollbar-track {
-    background-color: transparent;
-    border-radius: var(--border-rd);
-}
-
 .output-wrapper::-webkit-scrollbar-thumb {
-    background-color: var(--color-title);
+    background-color: var(--color-yellow-dk);
     border-radius: var(--border-rd);
 }
 
@@ -242,8 +324,8 @@ h1 {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-    align-items: start;
     align-content: flex-start;
+    align-items: start;
     gap: var(--gap-content);
     width: 100%;
     height: 800px;
@@ -268,7 +350,7 @@ h1 {
     padding: 0 var(--gap-content);
     height: 50px;
 
-    background-color: var(--color-title);
+    background-color: var(--color-yellow-dk);
     border-bottom: var(--border-st);
 
     line-height: 55px;
@@ -321,7 +403,7 @@ h1 {
 }
 
 .memo-list pre::-webkit-scrollbar-thumb {
-    background-color: var(--color-title);
+    background-color: var(--color-yellow-dk);
     border-radius: var(--border-rd);
 }
 
@@ -339,7 +421,7 @@ h1 {
 @media screen and (max-width: 900px) {
     h1 {
         font-size: 50px;
-        text-shadow: 3px 3px var(--color-title);
+        text-shadow: 3px 3px var(--color-yellow-dk);
     }
 
     main {
