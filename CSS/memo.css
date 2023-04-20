@@ -11,9 +11,9 @@
     --ft-size-title: 30px;
 
     --color-black: #333333;
-    --color-blue: #587DFF;
+    --color-blue: rgb(88, 125, 255);
     --color-yellow: #FFFCB0;
-    --color-title: #FEEA6D;
+    --color-title: #feea6d;
     --color-ph: #cccccc;
 
     --shadow-10: 10px 10px #333;
@@ -120,6 +120,13 @@ h1 {
     margin-top: 0;
 }
 
+/* ===== input, button focus ===== */
+#input_title:focus,
+#input_content:focus,
+.button:focus {
+    outline: 7px solid rgba(88, 125, 255, .5);
+}
+
 /* ===== input wrapper ===== */
 .input-wrapper,
 .button-wrapper {
@@ -144,6 +151,7 @@ h1 {
     font-family: inherit;
     font-size: var(--ft-size-content);
     color: white;
+    transition: outline .3s;
 }
 
 #input_title::placeholder,
@@ -156,7 +164,6 @@ h1 {
     margin-bottom: var(--gap-section);
 }
 
-/* 20 50 20 n 20 20 20 50 20 90 110 20 220 800  */
 #input_content {
     height: 604px;
     resize: none;
@@ -268,12 +275,30 @@ h1 {
 }
 
 .memo-list .close-button {
-    background: url(../images/cleseX.svg) no-repeat;
     position: absolute;
     top: 8px;
     right: 20px;
-    width: 30px;
-    height: 30px;
+    width: 25px;
+    height: 25px;
+
+    background-color: var(--color-black);
+    border: 3px solid white;
+
+    transition: outline .3s;
+}
+
+.memo-list .close-button svg {
+    transition: transform .3s;
+}
+
+.memo-list .close-button:hover,
+.memo-list .close-button:focus {
+    outline: 4px solid rgba(51, 51, 51, .5);
+}
+
+.memo-list .close-button:hover svg,
+.memo-list .close-button:focus svg {
+    transform: rotate(90deg);
 }
 
 .memo-list pre {
