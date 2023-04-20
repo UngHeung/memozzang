@@ -292,7 +292,7 @@ h1 {
 }
 
 .memo-list pre::-webkit-scrollbar {
-    width: 5px;
+    width: 10px;
 }
 
 .memo-list pre::-webkit-scrollbar-thumb {
@@ -314,7 +314,7 @@ h1 {
 @media screen and (max-width: 900px) {
     h1 {
         font-size: 50px;
-        text-shadow: 3px 3px var(--color-black);
+        text-shadow: 3px 3px var(--color-title);
     }
 
     main {
