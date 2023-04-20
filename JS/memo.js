@@ -12,6 +12,18 @@ const resetBtn = document.getElementById("reset_button");
 const maxLength = 200;
 const initContent = `0/${maxLength}`;
 
+function getTitle() {
+    return title.value;
+}
+
+function setContent(value) {
+    content.value = value;
+}
+
+function getContent() {
+    return content.value;
+}
+
 /* reset */
 const reset = {
     // 제목 초기화
@@ -105,18 +117,6 @@ const check = {
 let allMemo = JSON.parse(localStorage.getItem("allMemo"));
 allMemo = allMemo ?? [];
 loadMemo("none");
-
-function getTitle() {
-    return title.value;
-}
-
-function setContent(value) {
-    content.value = value;
-}
-
-function getContent() {
-    return content.value;
-}
 
 const contentBoxKeyEvent = (() => {
     content.addEventListener("keydown", (e) => {
