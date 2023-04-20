@@ -144,10 +144,10 @@ function addItem(type, memo, code) {
         memoCode = memoList.childElementCount;
         allMemo.push({ titleValue, titleContent, code: memoCode });
         localStorage.setItem("allMemo", JSON.stringify(allMemo));
+
         memoTitle.textContent = getTitle();
         memoContent.textContent = getContent();
     }
-    console.log(memoCode);
     memoDeleteBtn.classList.add("close-button");
 
     resetAll();
@@ -166,7 +166,5 @@ function addItem(type, memo, code) {
         localStorage.setItem("allMemo", JSON.stringify(allMemo));
         item.remove();
         check.emptyList();
-        console.log(localStorage);
     });
-    console.log(localStorage);
 }
