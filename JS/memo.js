@@ -12,10 +12,15 @@ const resetBtn = document.getElementById("reset_button");
 const maxLength = 200;
 const initContent = `0/${maxLength}`;
 
+const focusItems = [title, content, listDeleteBtn, listOrder, resetBtn, regiBtn];
+let focusIdx = 0;
+
+/* window onload */
 window.onload = () => {
     title.focus();
 };
 
+/* getter, setter */
 function getTitle() {
     return title.value;
 }
@@ -118,11 +123,14 @@ const check = {
     },
 };
 
+/* memo list */
 let allMemo = JSON.parse(localStorage.getItem("allMemo"));
 allMemo = allMemo ?? [];
 loadMemo("none");
 
+/* key event */
 const contentBoxKeyEvent = (() => {
+    // content key event 'CTRL' + 'ENTER'
     content.addEventListener("keydown", (e) => {
         if (e.ctrlKey === true && e.key === "Enter") {
             regiBtn.click();
@@ -130,20 +138,14 @@ const contentBoxKeyEvent = (() => {
     });
 })();
 
-/* button event */
-const regiBtnEvent = (() => {
-    regiBtn.addEventListener("click", () => {
-        if (check.title() && check.content()) {
-            addItem("add");
+const titleEnterEvent = (() => {
+    // title key event 'ENTER'
+    title.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+            e.preventDefault();
+            focusIdx++;
+            focusItems[focusIdx].focus();
         }
-        title.focus();
-    });
-})();
-
-const resetBtnEvent = (() => {
-    resetBtn.addEventListener("click", () => {
-        resetInput();
-        title.focus();
     });
 })();
 
@@ -158,53 +160,8 @@ const contentLengthEvent = (() => {
     });
 })();
 
-const resetAllEvent = (() => {
-    listDeleteBtn.addEventListener("click", () => {
-        if (check.resetAll()) {
-            reset.listAll();
-            title.focus();
-        }
-    });
-})();
-
-const listOrderEvent = (() => {
-    listOrder.addEventListener("change", () => {
-        reset.display();
-        loadMemo();
-    });
-})();
-
-// focus event 'TAB'
-const focusEvent = (() => {
-    const items = [title, content, listDeleteBtn, listOrder, resetBtn, regiBtn];
-    let focusIdx = 0;
-
-    items.forEach((item) => {
-        item.addEventListener("focus", (e) => {
-            focusIdx = items.indexOf(e.target);
-        });
-    });
-
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Tab") {
-            e.preventDefault();
-            if (e.shiftKey === true) {
-                if (focusIdx-- === 0) {
-                    focusIdx = items.length - 1;
-                }
-                items[focusIdx].focus();
-            } else if (e.shiftKey === false) {
-                if (focusIdx++ === items.length - 1) {
-                    focusIdx = 0;
-                }
-                items[focusIdx].focus();
-            }
-        }
-    });
-})();
-
-// key evnet 'DEL'
 const deleteEvent = (() => {
+    // window key evnet 'DEL'
     document.addEventListener("keydown", (e) => {
         if (e.ctrlKey === true && e.key === "Delete") {
             if (check.order()) {
@@ -216,6 +173,70 @@ const deleteEvent = (() => {
             reset.display();
             check.emptyList;
             loadMemo();
+        }
+    });
+})();
+
+/* button event */
+const regiBtnEvent = (() => {
+    // regi button
+    regiBtn.addEventListener("click", () => {
+        if (check.title() && check.content()) {
+            addItem("add");
+        }
+        title.focus();
+    });
+})();
+
+const resetBtnEvent = (() => {
+    // reset button
+    resetBtn.addEventListener("click", () => {
+        resetInput();
+        title.focus();
+    });
+})();
+
+const allResetEvent = (() => {
+    // all reset button
+    listDeleteBtn.addEventListener("click", () => {
+        if (check.resetAll()) {
+            reset.listAll();
+            title.focus();
+        }
+    });
+})();
+
+const listOrderEvent = (() => {
+    // list order checkbox
+    listOrder.addEventListener("change", () => {
+        reset.display();
+        loadMemo();
+    });
+})();
+
+/* focus event */
+const focusEvent = (() => {
+    // window focus event 'TAB'
+    focusItems.forEach((item) => {
+        item.addEventListener("focus", (e) => {
+            focusIdx = focusItems.indexOf(e.target);
+        });
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Tab") {
+            e.preventDefault();
+            if (e.shiftKey === true) {
+                if (focusIdx-- === 0) {
+                    focusIdx = focusItems.length - 1;
+                }
+                focusItems[focusIdx].focus();
+            } else if (e.shiftKey === false) {
+                if (focusIdx++ === focusItems.length - 1) {
+                    focusIdx = 0;
+                }
+                focusItems[focusIdx].focus();
+            }
         }
     });
 })();
