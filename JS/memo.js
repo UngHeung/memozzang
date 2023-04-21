@@ -165,9 +165,9 @@ const deleteEvent = (() => {
     document.addEventListener("keydown", (e) => {
         if (e.ctrlKey === true && e.key === "Delete") {
             if (check.order()) {
-                allMemo.shift();
+                allMemo.shift().code;
             } else if (!check.order()) {
-                allMemo.pop();
+                allMemo.pop().code;
             }
             localStorage.setItem("allMemo", JSON.stringify(allMemo));
             reset.display();
@@ -318,3 +318,15 @@ function addItem(type, memo, code) {
         check.emptyList();
     });
 }
+
+/**
+ * ===== 키보드 입력 이벤트 =====
+ * 1. 포커스 이동
+ *  TAB -> INPUT 그룹 내에서 포커스 이동, SHIFT + TAB -> 반대 이동
+ *  제목 -> ENTER -> 내용으로 포커스 이동
+ * 2. 메모 저장
+ *  내용 -> CTRL + ENTER -> 메모 바로 저장
+ * 3. 메모 삭제
+ *  CTRL + DEL 정렬 순서에 따라 제일 앞에 있는 메모 삭제
+ *
+ */
