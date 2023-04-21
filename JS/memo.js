@@ -12,6 +12,10 @@ const resetBtn = document.getElementById("reset_button");
 const maxLength = 200;
 const initContent = `0/${maxLength}`;
 
+window.onload = () => {
+    title.focus();
+};
+
 function getTitle() {
     return title.value;
 }
@@ -170,6 +174,52 @@ const listOrderEvent = (() => {
     });
 })();
 
+// focus event 'TAB'
+const focusEvent = (() => {
+    const items = [title, content, listDeleteBtn, listOrder, resetBtn, regiBtn];
+    let focusIdx = 0;
+
+    items.forEach((item) => {
+        item.addEventListener("focus", (e) => {
+            focusIdx = items.indexOf(e.target);
+        });
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Tab") {
+            e.preventDefault();
+            if (e.shiftKey === true) {
+                if (focusIdx-- === 0) {
+                    focusIdx = items.length - 1;
+                }
+                items[focusIdx].focus();
+            } else if (e.shiftKey === false) {
+                if (focusIdx++ === items.length - 1) {
+                    focusIdx = 0;
+                }
+                items[focusIdx].focus();
+            }
+        }
+    });
+})();
+
+// key evnet 'DEL'
+const deleteEvent = (() => {
+    document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey === true && e.key === "Delete") {
+            if (check.order()) {
+                allMemo.shift();
+            } else if (!check.order()) {
+                allMemo.pop();
+            }
+            localStorage.setItem("allMemo", JSON.stringify(allMemo));
+            reset.display();
+            check.emptyList;
+            loadMemo();
+        }
+    });
+})();
+
 /* load memo */
 function loadMemo() {
     for (let i = 0; i < allMemo.length; i++) {
@@ -181,20 +231,31 @@ function loadMemo() {
 function addItem(type, memo, code) {
     const item = document.createElement("li");
     const memoTitle = document.createElement("h3");
+    const time = document.createElement("article");
     const memoDeleteBtn = document.createElement("button");
     const memoContent = document.createElement("pre");
     let memoCode;
+
+    let date = [];
 
     if (type === "load") {
         memoCode = code;
         memoTitle.textContent = memo.titleValue;
         memoContent.textContent = memo.titleContent;
+        date = memo.time.split(",");
     } else if (type === "add") {
         const titleValue = title.value;
         const titleContent = content.value;
 
+        const today = new Date();
+        date.push(today.getFullYear());
+        date.push(today.getMonth() + 1);
+        date.push(today.getDate());
+        date.push(`${today.getHours()}:${today.getMinutes()}`);
+        const time = date.toString();
+
         memoCode = memoList.childElementCount;
-        allMemo.push({ titleValue, titleContent, code: memoCode });
+        allMemo.push({ titleValue, titleContent, time, code: memoCode });
         localStorage.setItem("allMemo", JSON.stringify(allMemo));
 
         memoTitle.textContent = getTitle();
@@ -208,9 +269,15 @@ function addItem(type, memo, code) {
     </svg>
     `;
 
+    time.innerHTML = `
+        <time datetime=${date[0]}-${date[1]}-${date[2]} class="time">${date[0]}-${date[1]}-${date[2]}</time>
+        <time datetime=${date[3]} class="time">${date[3]}</time>
+    `;
+
     resetInput();
 
     item.appendChild(memoTitle);
+    item.appendChild(time);
     item.appendChild(memoDeleteBtn);
     item.appendChild(memoContent);
     if (check.order()) {
