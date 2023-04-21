@@ -128,8 +128,11 @@ h1 {
 
 /* ===== input, button focus ===== */
 #input_title:focus,
+#input_title:hover,
 #input_content:focus,
-.button:focus {
+#input_content:hover,
+.button:focus,
+.button:hover {
     outline: 7px solid rgba(88, 125, 255, .5);
 }
 
@@ -212,11 +215,13 @@ h1 {
     text-align: center;
 }
 
-.list-delete:focus {
-    outline: 7px solid rgba(248, 100, 100, .5);
+.list-delete:focus,
+.list-delete:hover {
+    outline-color: rgba(248, 100, 100, .5);
 }
 
-#list_order:focus+.list-order {
+#list_order:focus+.list-order,
+.list-order:hover {
     outline: 7px solid rgba(88, 125, 255, .5);
 }
 
@@ -333,7 +338,7 @@ h1 {
 
 .memo-list li {
     position: relative;
-    width: 48%;
+    width: calc(50% - var(--gap-content) / 2);
     border-radius: var(--border-rd);
     border: var(--border-st);
 
@@ -362,9 +367,6 @@ h1 {
     right: 20px;
     width: 25px;
     height: 25px;
-
-    background-color: var(--color-black);
-    border: 3px solid white;
 
     transition: outline .3s;
 }
@@ -444,7 +446,7 @@ h1 {
     }
 
     .memo-list li {
-        width: 48%;
+        width: calc(50% - var(--gap-content) / 2);
     }
 }
 
