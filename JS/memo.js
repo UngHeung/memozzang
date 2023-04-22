@@ -12,7 +12,7 @@ const resetBtn = document.getElementById("reset_button");
 const maxLength = 200;
 const initContent = `0/${maxLength}`;
 
-const focusItems = [title, content, listDeleteBtn, listOrder, resetBtn, regiBtn];
+const focusItems = [title, content, resetBtn, regiBtn, listDeleteBtn, listOrder];
 let focusIdx = 0;
 
 /* window onload */
