@@ -78,6 +78,10 @@ main {
 }
 
 .left-side {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: var(--gap-content);
     width: 40%;
     margin-bottom: var(--gap-section);
 }
@@ -114,17 +118,10 @@ h1 {
 
 /* ===== wrapper ===== */
 .wrap {
-    margin-top: var(--gap-section);
-    padding: var(--gap-content);
-
     background-color: white;
     border: var(--border-st);
     border-radius: var(--border-rd);
     box-shadow: var(--shadow-10);
-}
-
-.wrap:nth-child(1) {
-    margin-top: 0;
 }
 
 /* ===== input, button focus ===== */
@@ -138,15 +135,9 @@ h1 {
 }
 
 /* ===== input wrapper ===== */
-.input-wrapper,
-.button-wrapper,
-.option-wrapper {
-    width: 100%;
-    max-width: 540px;
-}
-
 .input-wrapper {
     position: relative;
+    padding: var(--gap-content);
 }
 
 #input_title,
@@ -176,7 +167,7 @@ h1 {
 }
 
 #input_content {
-    height: 479px;
+    height: 500px;
     resize: none;
 }
 
@@ -203,6 +194,7 @@ h1 {
     justify-content: center;
     align-items: center;
     gap: var(--gap-content);
+    padding: var(--gap-content);
 }
 
 .list-delete {
@@ -303,18 +295,6 @@ h1 {
 /* ===== output wrapper ===== */
 .output-wrapper {
     position: relative;
-    width: 100%;
-    max-width: 790px;
-    overflow: auto;
-}
-
-.output-wrapper::-webkit-scrollbar {
-    width: 10px;
-}
-
-.output-wrapper::-webkit-scrollbar-thumb {
-    background-color: var(--color-yellow-dk);
-    border-radius: var(--border-rd);
 }
 
 .empty-list {
@@ -328,7 +308,18 @@ h1 {
     align-content: flex-start;
     gap: var(--gap-content);
     width: 100%;
-    height: 800px;
+    height: 860px;
+    padding: var(--gap-content);
+    overflow: auto;
+}
+
+.memo-list::-webkit-scrollbar {
+    width: 10px;
+}
+
+.memo-list::-webkit-scrollbar-thumb {
+    background-color: var(--color-yellow-dk);
+    border-radius: var(--border-rd);
 }
 
 .memo-list li {
