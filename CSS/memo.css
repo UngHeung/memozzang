@@ -366,6 +366,8 @@ h1 {
     position: absolute;
     width: 100%;
 
+    background-color: var(--color-yellow);
+
     text-align: center;
     font-size: var(--ft-size-time);
 }
