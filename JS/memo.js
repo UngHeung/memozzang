@@ -357,7 +357,6 @@ const focusEvent = (() => {
 function loadMemo() {
     for (let i = 0; i < allMemo.getSize(); i++) {
         addItem("load", allMemo.getMemo(i), allMemo.getMemo(i).code);
-        console.log(allMemo.getMemo(i));
     }
 }
 
