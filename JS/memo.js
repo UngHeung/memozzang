@@ -57,6 +57,11 @@ class MemoList {
         localStorage.setItem("memoList", JSON.stringify(this.memoList));
     };
 
+    clearMemo = function () {
+        this.memoList.splice(0, this.memoList.length - 1);
+        localStorage.clear();
+    };
+
     // changeTitle = function (code, newTitle) {
     //     return (this.memoList[this.getIndex(code)].title = newTitle);
     // };
@@ -154,8 +159,7 @@ const reset = {
     // 리스트 전체 초기화
     listAll: () => {
         reset.display();
-        allMemo.splice(0, allMemo.length);
-        localStorage.clear();
+        allMemo.clearMemo();
         check.emptyList();
     },
 };
