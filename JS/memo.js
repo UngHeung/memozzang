@@ -1,7 +1,75 @@
+class Memo {
+    constructor(title, content, time, code) {
+        this.title = title;
+        this.content = content;
+        this.time = time;
+        this.code = code;
+    }
+}
+
+class MemoList {
+    constructor() {
+        this.memoList = JSON.parse(localStorage.getItem("memoList"));
+        this.memoList = this.memoList ?? [];
+    }
+
+    getMemoList = function () {
+        return this.memoList;
+    };
+
+    getMemo = function (index) {
+        return this.memoList[index];
+    };
+
+    getSize = function () {
+        return this.memoList.length;
+    };
+
+    getIndex = function (code) {
+        return this.memoList.indexOf(this.memoList.filter((el) => el.code === code)[0]);
+    };
+
+    addMemo = function (title, content, time, code) {
+        const result = this.memoList.push(new Memo(title, content, time, code));
+        this.setLocalStorage();
+        return result;
+    };
+
+    delMemo = function (code) {
+        const result = this.memoList.splice(this.getIndex(code), 1);
+        this.setLocalStorage();
+        return result;
+    };
+
+    popMemo = function () {
+        const result = this.memoList.pop();
+        this.setLocalStorage();
+        return result;
+    };
+
+    shiftMemo = function () {
+        const result = this.memoList.shift();
+        this.setLocalStorage();
+        return result;
+    };
+
+    setLocalStorage = function () {
+        localStorage.setItem("memoList", JSON.stringify(this.memoList));
+    };
+
+    // changeTitle = function (code, newTitle) {
+    //     return (this.memoList[this.getIndex(code)].title = newTitle);
+    // };
+
+    // changeContent = function (code, newContent) {
+    //     return (this.memoList[this.getIndex(code)].content = newContent);
+    // };
+}
+
 const title = document.getElementById("input_title");
 const content = document.getElementById("input_content");
 const contentLength = document.querySelector(".content-length");
-const memoList = document.querySelector(".memo-list");
+const dispMemoLIst = document.querySelector(".memo-list");
 const emptyList = document.querySelector(".empty-list");
 
 const listOrder = document.getElementById("list_order");
@@ -80,7 +148,7 @@ const reset = {
 
     // 리스트 화면 초기화
     display: () => {
-        memoList.innerHTML = "";
+        dispMemoLIst.innerHTML = "";
     },
 
     // 리스트 전체 초기화
@@ -102,7 +170,7 @@ function resetInput() {
 const check = {
     // 리스트 비어있는지 확인
     emptyList: () => {
-        if (memoList.childElementCount === 0) {
+        if (dispMemoLIst.childElementCount === 0) {
             emptyList.classList.remove("hidden");
         } else {
             emptyList.classList.add("hidden");
@@ -152,8 +220,11 @@ const check = {
 };
 
 /* memo list */
-let allMemo = JSON.parse(localStorage.getItem("allMemo"));
-allMemo = allMemo ?? [];
+// let allMemo = JSON.parse(localStorage.getItem("allMemo"));
+// allMemo = allMemo ?? [];
+// loadMemo();
+
+let allMemo = new MemoList();
 loadMemo();
 
 /* key event */
@@ -193,11 +264,10 @@ const deleteEvent = (() => {
     document.addEventListener("keydown", (e) => {
         if (e.ctrlKey === true && e.key === "Delete") {
             if (check.order()) {
-                allMemo.shift().code;
+                allMemo.shiftMemo().code;
             } else if (!check.order()) {
-                allMemo.pop().code;
+                allMemo.popMemo().code;
             }
-            localStorage.setItem("allMemo", JSON.stringify(allMemo));
             reset.display();
             check.emptyList;
             loadMemo();
@@ -281,8 +351,9 @@ const focusEvent = (() => {
 
 /* load memo */
 function loadMemo() {
-    for (let i = 0; i < allMemo.length; i++) {
-        addItem("load", allMemo[i], allMemo[i].code);
+    for (let i = 0; i < allMemo.getSize(); i++) {
+        addItem("load", allMemo.getMemo(i), allMemo.getMemo(i).code);
+        console.log(allMemo.getMemo(i));
     }
 }
 
@@ -299,12 +370,12 @@ function addItem(type, memo, code) {
 
     if (type === "load") {
         memoCode = code;
-        memoTitle.textContent = memo.titleValue;
-        memoContent.textContent = memo.titleContent;
+        memoTitle.textContent = memo.title;
+        memoContent.textContent = memo.content;
         date = memo.time.split(",");
     } else if (type === "add") {
         const titleValue = getTitle();
-        const titleContent = getContent();
+        const contentValue = getContent();
 
         const today = new Date();
         date.push(today.getFullYear());
@@ -313,9 +384,8 @@ function addItem(type, memo, code) {
         date.push(`${today.getHours()}:${today.getMinutes()}`);
         const time = date.toString();
 
-        memoCode = memoList.childElementCount;
-        allMemo.push({ titleValue, titleContent, time, code: memoCode });
-        localStorage.setItem("allMemo", JSON.stringify(allMemo));
+        memoCode = dispMemoLIst.childElementCount;
+        allMemo.addMemo(titleValue, contentValue, time, memoCode);
 
         memoTitle.textContent = getTitle();
         memoContent.textContent = getContent();
@@ -340,18 +410,14 @@ function addItem(type, memo, code) {
     item.appendChild(memoDeleteBtn);
     item.appendChild(memoContent);
     if (check.order()) {
-        memoList.append(item);
+        dispMemoLIst.append(item);
     } else {
-        memoList.prepend(item);
+        dispMemoLIst.prepend(item);
     }
     check.emptyList();
 
     memoDeleteBtn.addEventListener("click", () => {
-        allMemo.splice(
-            allMemo.findIndex((item) => item.code === memoCode),
-            1
-        );
-        localStorage.setItem("allMemo", JSON.stringify(allMemo));
+        allMemo.delMemo(memoCode);
         item.remove();
         check.emptyList();
     });
