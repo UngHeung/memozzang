@@ -58,7 +58,7 @@ class MemoList {
     };
 
     clearMemo = function () {
-        this.memoList.splice(0, this.memoList.length - 1);
+        this.memoList.splice(0, this.memoList.length);
         localStorage.clear();
     };
 
