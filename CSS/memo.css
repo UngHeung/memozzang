@@ -14,7 +14,7 @@
     --color-black: #333333;
     --color-blue: #A7BBFF;
     --color-blue-dk: #587dff;
-
+    --color-red: #f86464;
     --color-yellow: #FFFCB0;
     --color-yellow-dk: #feea6d;
     --color-ph: #cccccc;
@@ -33,6 +33,10 @@
     padding: 0;
 
     box-sizing: border-box;
+}
+
+body {
+    position: relative;
 }
 
 body::-webkit-scrollbar {
@@ -64,6 +68,12 @@ main {
     max-width: 1340px;
     margin: var(--gap-section) auto;
     padding: 0 var(--gap-content);
+}
+
+kbd {
+    padding: 5px 10px;
+    border-radius: var(--border-rd);
+    border: var(--border-st);
 }
 
 .hidden {
@@ -206,7 +216,7 @@ h1 {
     box-sizing: border-box;
     box-shadow: var(--shadow-3);
 
-    color: rgb(248, 100, 100);
+    color: var(--color-red);
     text-align: center;
 }
 
@@ -257,10 +267,13 @@ h1 {
     display: block;
     width: 50%;
     height: 60px;
+
     border-radius: 30px;
     box-shadow: var(--shadow-3);
     background-color: white;
+
     transition: left .3s;
+    cursor: pointer;
 }
 
 /* ===== button wraper ===== */
@@ -274,7 +287,9 @@ h1 {
 
     font-size: var(--ft-size-title);
     text-align: center;
+
     transition: transform, box-shadow .1s, .1s;
+    cursor: pointer;
 }
 
 .button:active {
@@ -312,6 +327,7 @@ h1 {
     width: 100%;
     height: 860px;
     padding: var(--gap-content);
+
     overflow: auto;
 }
 
@@ -340,8 +356,8 @@ h1 {
 }
 
 .memo-list h3 {
-    padding: 0 var(--gap-content);
     height: 50px;
+    padding: 0 var(--gap-content);
 
     background-color: var(--color-yellow-dk);
     border-bottom: var(--border-st);
@@ -363,7 +379,7 @@ h1 {
     margin-right: 10px;
 }
 
-.memo-list .close-button {
+.close-button {
     position: absolute;
     top: 10px;
     right: 20px;
@@ -373,32 +389,37 @@ h1 {
     transition: outline .3s;
 }
 
-.memo-list .close-button svg {
+.close-button svg,
+.close-manual svg {
     transition: transform .3s;
+    cursor: pointer;
 }
 
-.memo-list .close-button:hover {
+.close-button:hover {
     outline: 4px solid rgba(51, 51, 51, .5);
 }
 
-.memo-list .close-button:hover svg,
-.memo-list .close-button:focus svg {
+.close-button:hover svg,
+.close-button:focus svg,
+.close-manual:hover svg,
+.close-manual:focus svg {
     transform: rotate(90deg);
 }
 
 .memo-list pre {
     height: 290px;
     padding: var(--gap-content);
-    font-family: 'Jua', sans-serif;
 
     background-color: var(--color-yellow);
 
-    overflow: auto;
+    font-family: 'Jua', sans-serif;
     white-space: -moz-pre-wrap;
     white-space: -pre-wrap;
     white-space: -o-pre-wrap;
     white-space: pre-wrap;
     word-wrap: break-word;
+
+    overflow: auto;
 }
 
 .memo-list pre::-webkit-scrollbar {
@@ -408,6 +429,78 @@ h1 {
 .memo-list pre::-webkit-scrollbar-thumb {
     background-color: var(--color-yellow-dk);
     border-radius: var(--border-rd);
+}
+
+/* ===== user manual ===== */
+.user-manual {
+    position: fixed;
+    display: block;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, .7);
+
+    line-height: 50px;
+}
+
+.user-manual div {
+    position: relative;
+    top: 130px;
+    width: fit-content;
+    margin: 0 auto;
+    padding: var(--gap-content);
+    background-color: white;
+    border-radius: var(--border-rd);
+    border: var(--border-st);
+    box-shadow: var(--shadow-10);
+
+}
+
+.user-manual section {
+    width: 600px;
+    height: 600px;
+
+    overflow: auto;
+}
+
+.user-manual h2 {
+    text-align: center;
+}
+
+.user-manual h3 {
+    margin-top: var(--gap-section);
+}
+
+.user-manual p {
+    font-size: var(--ft-size-content);
+}
+
+.user-manual strong {
+    color: var(--color-red);
+}
+
+.user-manual kbd {
+    font-family: inherit;
+}
+
+.user-manual section::-webkit-scrollbar {
+    width: 10px;
+}
+
+.user-manual section::-webkit-scrollbar-thumb {
+    border-radius: var(--border-rd);
+    border: var(--border-st);
+}
+
+.close-manual {
+    position: absolute;
+    top: 45px;
+    right: 80px;
+    width: 25px;
+    height: 25px;
+
+    transition: outline .3s;
 }
 
 @media screen and (max-width: 1100px) {
@@ -454,5 +547,20 @@ h1 {
 @media screen and (max-width: 630px) {
     .memo-list li {
         width: 100%;
+    }
+
+    .user-manual div {
+        top: 0;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+
+        border-radius: 0;
+        border: none;
+    }
+
+    .user-manual section {
+        width: 100%;
+        height: 100%;
     }
 }

@@ -71,11 +71,14 @@ class MemoList {
     // };
 }
 
+/*  */
 const title = document.getElementById("input_title");
 const content = document.getElementById("input_content");
 const contentLength = document.querySelector(".content-length");
 const dispMemoLIst = document.querySelector(".memo-list");
 const emptyList = document.querySelector(".empty-list");
+const manual = document.querySelector(".user-manual");
+const manualState = document.getElementById("manual_state");
 
 const listOrder = document.getElementById("list_order");
 const listDeleteBtn = document.querySelector(".list-delete");
@@ -118,8 +121,8 @@ function getListOrder() {
     return listOrder.checked;
 }
 
-function setListOrder(value) {
-    return (listOrder.checked = value);
+function toggleListOrder() {
+    listOrder.checked = !getListOrder();
 }
 
 function getMaxLength() {
@@ -132,6 +135,18 @@ function getFocusIdx() {
 
 function setFocusIdx(idx) {
     focusIdx = idx;
+}
+
+function getManualState() {
+    return manualState.checked;
+}
+
+function setManualState(value) {
+    manualState.checked = value;
+}
+
+function toggleManual() {
+    manualState.checked = !getManualState();
 }
 
 /* reset */
@@ -204,6 +219,11 @@ const check = {
         return getListOrder();
     },
 
+    // 설명서 확인
+    manual: () => {
+        return getManualState();
+    },
+
     // 내용 길이 확인
     contentLength: (length) => {
         if (length > getMaxLength()) {
@@ -252,19 +272,8 @@ const titleEnterEvent = (() => {
     });
 })();
 
-const contentLengthEvent = (() => {
-    content.addEventListener("keyup", () => {
-        let length = getContent().length;
-        if (!check.contentLength(length)) {
-            setContent(getContent().slice(0, 200));
-            length -= 1;
-        }
-        setContentLength(`${length}/${getMaxLength()}`);
-    });
-})();
-
 const deleteEvent = (() => {
-    // window key evnet 'DEL'
+    // window key evnet 'CTRL' + 'DEL'
     document.addEventListener("keydown", (e) => {
         if (e.ctrlKey === true && e.key === "Delete") {
             if (check.order()) {
@@ -276,6 +285,38 @@ const deleteEvent = (() => {
             check.emptyList;
             loadMemo();
         }
+    });
+})();
+
+const manualToggle = (() => {
+    // manual on off event 'CTRL' + 'M'
+    document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey === true && e.key === "m") {
+            console.log(getManualState());
+            toggleManual();
+            displayManual();
+        }
+    });
+
+    // manual off event 'ESC'
+    document.addEventListener("keydown", (e) => {
+        console.log(e.key);
+        if (check.manual && e.key === "Escape") {
+            setManualState(false);
+            displayManual();
+        }
+    });
+})();
+
+const contentLengthEvent = (() => {
+    // content length event
+    content.addEventListener("keyup", () => {
+        let length = getContent().length;
+        if (!check.contentLength(length)) {
+            setContent(getContent().slice(0, 200));
+            length -= 1;
+        }
+        setContentLength(`${length}/${getMaxLength()}`);
     });
 })();
 
@@ -316,6 +357,13 @@ const listOrderEvent = (() => {
     });
 })();
 
+const manualEvent = (() => {
+    // manual off event
+    manualState.addEventListener("change", () => {
+        displayManual();
+    });
+})();
+
 /* focus event */
 const focusEvent = (() => {
     // window focus event 'TAB'
@@ -352,6 +400,15 @@ const focusEvent = (() => {
         }
     });
 })();
+
+/* manual on off event */
+function displayManual() {
+    if (check.manual()) {
+        manual.style.display = "block";
+    } else if (!check.manual()) {
+        manual.style.display = "none";
+    }
+}
 
 /* load memo */
 function loadMemo() {

@@ -80,6 +80,50 @@
             </section>
         </div>
     </main>
+
+    <article class="user-manual">
+        <div>
+            <header>
+                <h2>키 입력 설명서</h2>
+            </header>
+
+            <section>
+                <h3>설명서 ON/OFF</h3>
+                <p>
+                    <kbd>CTRL</kbd> + <kbd>M</kbd><br>
+                    설명서 ON/OFF<br>
+                    <kbd>ESC</kbd><br>
+                    설명서 OFF
+                </p>
+
+                <h3>포커스 이동</h3>
+                <p>
+                    <kbd>Tab</kbd><br>
+                    정방향 순서대로 이동<br>
+                    <kbd>SHIFT</kbd> + <kbd>TAB</kbd><br>
+                    역방향 순서대로 이동<br>
+                    <kbd>ENTER</kbd><br>
+                    제목 -> 내용으로 이동<strong> !제목 탭에서만 동작</strong>
+                </p>
+
+                <h3>메모 저장/삭제</h3>
+                <p>
+                    <kbd>CTRL</kbd> + <kbd>ENTER</kbd><br>
+                    현재 작성중인 메모 저장<br>
+                    <kbd>CTRL</kbd> + <kbd>DELETE</kbd><br>
+                    제일 앞에 있는 메모 삭제<strong> !정렬 순서에 따름</strong>
+                </p>
+            </section>
+
+            <label for="manual_state" class="close-manual">
+                <svg width="25" height="25" viewBox="0 0 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <line x1="5" y1="5" x2="20" y2="20" stroke="#333333" stroke-width="3" />
+                    <line x1="5" y1="20" x2="20" y2="5" stroke="#333333" stroke-width="3" />
+                </svg>
+            </label>
+            <input type="checkbox" name="manual_state" id="manual_state" class="hidden" checked>
+        </div>
+    </article>
 </body>
 <script src="JS/memo.js"></script>
 
