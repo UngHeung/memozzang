@@ -177,13 +177,13 @@ const reset = {
         allMemo.clearMemo();
         check.emptyList();
     },
-};
 
-function resetInput() {
-    reset.title();
-    reset.content();
-    reset.contentLength();
-}
+    input: () => {
+        reset.title();
+        reset.content();
+        reset.contentLength();
+    },
+};
 
 /* check */
 const check = {
@@ -243,21 +243,33 @@ const check = {
     },
 };
 
-/* memo list */
-// let allMemo = JSON.parse(localStorage.getItem("allMemo"));
-// allMemo = allMemo ?? [];
-// loadMemo();
-
 let allMemo = new MemoList();
 loadMemo();
 
 /* key event */
-const contentBoxKeyEvent = (() => {
-    // content key event 'CTRL' + 'ENTER'
+const contentBoxEvent = (() => {
+    /**
+     * content key event
+     *  'CTRL' + 'ENTER' : add memo
+     * content event
+     *  content length count event
+     */
+
     content.addEventListener("keydown", (e) => {
+        // content key event
         if (e.ctrlKey === true && e.key === "Enter") {
             regiBtn.click();
         }
+    });
+
+    content.addEventListener("keyup", () => {
+        // content length event
+        let length = getContent().length;
+        if (!check.contentLength(length)) {
+            setContent(getContent().slice(0, 200));
+            length -= 1;
+        }
+        setContentLength(`${length}/${getMaxLength()}`);
     });
 })();
 
@@ -272,10 +284,25 @@ const titleEnterEvent = (() => {
     });
 })();
 
-const deleteEvent = (() => {
-    // window key evnet 'CTRL' + 'DEL'
+const windowKeyEvent = (() => {
     document.addEventListener("keydown", (e) => {
-        if (e.ctrlKey === true && e.key === "Delete") {
+        /**
+         * window key event
+         *  'CTRL' + 'M' : manual on/off
+         * 'ESC' : manual off
+         *  'CTRL' + 'DELETE' : delete memo
+         */
+
+        if (e.ctrlKey === true && e.key === "m") {
+            // manual on off event
+            toggleManual();
+            displayManual();
+        } else if (check.manual && e.key === "Escape") {
+            // manual off event
+            setManualState(false);
+            displayManual();
+        } else if (e.ctrlKey === true && e.key === "Delete") {
+            // delete memo evnet
             if (check.order()) {
                 allMemo.shiftMemo().code;
             } else if (!check.order()) {
@@ -285,38 +312,6 @@ const deleteEvent = (() => {
             check.emptyList;
             loadMemo();
         }
-    });
-})();
-
-const manualToggle = (() => {
-    // manual on off event 'CTRL' + 'M'
-    document.addEventListener("keydown", (e) => {
-        if (e.ctrlKey === true && e.key === "m") {
-            console.log(getManualState());
-            toggleManual();
-            displayManual();
-        }
-    });
-
-    // manual off event 'ESC'
-    document.addEventListener("keydown", (e) => {
-        console.log(e.key);
-        if (check.manual && e.key === "Escape") {
-            setManualState(false);
-            displayManual();
-        }
-    });
-})();
-
-const contentLengthEvent = (() => {
-    // content length event
-    content.addEventListener("keyup", () => {
-        let length = getContent().length;
-        if (!check.contentLength(length)) {
-            setContent(getContent().slice(0, 200));
-            length -= 1;
-        }
-        setContentLength(`${length}/${getMaxLength()}`);
     });
 })();
 
@@ -334,7 +329,7 @@ const regiBtnEvent = (() => {
 const resetBtnEvent = (() => {
     // reset button
     resetBtn.addEventListener("click", () => {
-        resetInput();
+        reset.input();
         title.focus();
     });
 })();
@@ -463,7 +458,7 @@ function addItem(type, memo, code) {
         <time datetime=${date[3]} class="time">${date[3]}</time>
     `;
 
-    resetInput();
+    reset.input();
 
     item.appendChild(memoTitle);
     item.appendChild(time);
@@ -484,7 +479,7 @@ function addItem(type, memo, code) {
 }
 
 /**
- * ===== 키보드 입력 이벤트 =====
+ * ===== 키보드 입력 이벤트 // 사용자 매뉴얼 내용 =====
  * 1. 포커스 이동
  *  TAB -> INPUT 그룹 내에서 포커스 이동, SHIFT + TAB -> 반대 이동
  *  제목 -> ENTER -> 내용으로 포커스 이동
