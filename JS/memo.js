@@ -21,6 +21,10 @@ window.onload = () => {
 };
 
 /* getter, setter */
+function setTitle(value) {
+    title.value = value;
+}
+
 function getTitle() {
     return title.value;
 }
@@ -33,21 +37,45 @@ function getContent() {
     return content.value;
 }
 
+function setContentLength(value) {
+    contentLength.textContent = value;
+}
+
+function getListOrder() {
+    return listOrder.checked;
+}
+
+function setListOrder(value) {
+    return (listOrder.checked = value);
+}
+
+function getMaxLength() {
+    return maxLength;
+}
+
+function getFocusIdx() {
+    return focusIdx;
+}
+
+function setFocusIdx(idx) {
+    focusIdx = idx;
+}
+
 /* reset */
 const reset = {
     // 제목 초기화
     title: () => {
-        title.value = "";
+        setTitle("");
     },
 
     // 내용 초기화
     content: () => {
-        content.value = "";
+        setContent("");
     },
 
     // 내용 길이 초기화
     contentLength: () => {
-        contentLength.textContent = initContent;
+        setContentLength(initContent);
     },
 
     // 리스트 화면 초기화
@@ -57,7 +85,7 @@ const reset = {
 
     // 리스트 전체 초기화
     listAll: () => {
-        memoList.innerHTML = "";
+        reset.display();
         allMemo.splice(0, allMemo.length);
         localStorage.clear();
         check.emptyList();
@@ -101,12 +129,12 @@ const check = {
 
     // 정렬 확인
     order: () => {
-        return listOrder.checked;
+        return getListOrder();
     },
 
     // 내용 길이 확인
     contentLength: (length) => {
-        if (length > maxLength) {
+        if (length > getMaxLength()) {
             alert("글자 수가 최대입니다.");
             return false;
         }
@@ -126,7 +154,7 @@ const check = {
 /* memo list */
 let allMemo = JSON.parse(localStorage.getItem("allMemo"));
 allMemo = allMemo ?? [];
-loadMemo("none");
+loadMemo();
 
 /* key event */
 const contentBoxKeyEvent = (() => {
@@ -143,20 +171,20 @@ const titleEnterEvent = (() => {
     title.addEventListener("keydown", (e) => {
         if (e.key === "Enter") {
             e.preventDefault();
-            focusIdx++;
-            focusItems[focusIdx].focus();
+            setFocusIdx(getFocusIdx() + 1);
+            focusItems[getFocusIdx()].focus();
         }
     });
 })();
 
 const contentLengthEvent = (() => {
     content.addEventListener("keyup", () => {
-        let length = content.value.length;
+        let length = getContent().length;
         if (!check.contentLength(length)) {
             setContent(getContent().slice(0, 200));
             length -= 1;
         }
-        contentLength.innerText = `${length}/${maxLength}`;
+        setContentLength(`${length}/${getMaxLength()}`);
     });
 })();
 
@@ -219,23 +247,33 @@ const focusEvent = (() => {
     // window focus event 'TAB'
     focusItems.forEach((item) => {
         item.addEventListener("focus", (e) => {
-            focusIdx = focusItems.indexOf(e.target);
+            setFocusIdx(focusItems.indexOf(e.target));
         });
     });
+
+    focusUp = function () {
+        setFocusIdx(getFocusIdx() + 1);
+        return getFocusIdx();
+    };
+
+    focusDown = function () {
+        setFocusIdx(getFocusIdx() - 1);
+        return getFocusIdx();
+    };
 
     document.addEventListener("keydown", (e) => {
         if (e.key === "Tab") {
             e.preventDefault();
             if (e.shiftKey === true) {
-                if (focusIdx-- === 0) {
-                    focusIdx = focusItems.length - 1;
+                if (focusDown() === -1) {
+                    setFocusIdx(focusItems.length - 1);
                 }
-                focusItems[focusIdx].focus();
+                focusItems[getFocusIdx()].focus();
             } else if (e.shiftKey === false) {
-                if (focusIdx++ === focusItems.length - 1) {
-                    focusIdx = 0;
+                if (focusUp() === focusItems.length) {
+                    setFocusIdx(0);
                 }
-                focusItems[focusIdx].focus();
+                focusItems[getFocusIdx()].focus();
             }
         }
     });
@@ -265,8 +303,8 @@ function addItem(type, memo, code) {
         memoContent.textContent = memo.titleContent;
         date = memo.time.split(",");
     } else if (type === "add") {
-        const titleValue = title.value;
-        const titleContent = content.value;
+        const titleValue = getTitle();
+        const titleContent = getContent();
 
         const today = new Date();
         date.push(today.getFullYear());
