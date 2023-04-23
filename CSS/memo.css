@@ -299,6 +299,8 @@ h1 {
 
 .empty-list {
     position: absolute;
+    top: var(--gap-content);
+    left: var(--gap-content);
 }
 
 .memo-list {
