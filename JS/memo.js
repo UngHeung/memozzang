@@ -1,10 +1,26 @@
 class Memo {
-    constructor(title, content, time, code) {
+    constructor(title, content, code) {
         this.title = title;
+        this.time = this.setDate().toString();
         this.content = content;
-        this.time = time;
         this.code = code;
+
+        this.date = this.setDate();
     }
+
+    setDate = function () {
+        const today = new Date();
+        let date = [];
+        date.push(today.getFullYear());
+        date.push(today.getMonth() + 1);
+        date.push(today.getDate());
+        date.push(`${today.getHours()}:${today.getMinutes()}`);
+        return date;
+    };
+
+    getDate = function () {
+        return this.date;
+    };
 }
 
 class MemoList {
@@ -29,10 +45,10 @@ class MemoList {
         return this.memoList.indexOf(this.memoList.filter((el) => el.code === code)[0]);
     };
 
-    addMemo = function (title, content, time, code) {
-        const result = this.memoList.push(new Memo(title, content, time, code));
+    addMemo = function (title, content, code) {
+        this.memoList.push(new Memo(title, content, code));
         this.setLocalStorage();
-        return result;
+        return this.memoList[this.getSize() - 1];
     };
 
     delMemo = function (code) {
@@ -86,7 +102,7 @@ const regiBtn = document.getElementById("regi_button");
 const resetBtn = document.getElementById("reset_button");
 
 const maxLength = 200;
-const initContent = `0/${maxLength}`;
+const initLength = `0/${maxLength}`;
 
 const focusItems = [title, content, resetBtn, regiBtn, listDeleteBtn, listOrder];
 let focusIdx = 0;
@@ -163,7 +179,7 @@ const reset = {
 
     // 내용 길이 초기화
     contentLength: () => {
-        setContentLength(initContent);
+        setContentLength(initLength);
     },
 
     // 리스트 화면 초기화
@@ -432,15 +448,9 @@ function addItem(type, memo, code) {
         const titleValue = getTitle();
         const contentValue = getContent();
 
-        const today = new Date();
-        date.push(today.getFullYear());
-        date.push(today.getMonth() + 1);
-        date.push(today.getDate());
-        date.push(`${today.getHours()}:${today.getMinutes()}`);
-        const time = date.toString();
-
         memoCode = dispMemoLIst.childElementCount;
-        allMemo.addMemo(titleValue, contentValue, time, memoCode);
+        memo = allMemo.addMemo(titleValue, contentValue, memoCode);
+        date = memo.getDate();
 
         memoTitle.textContent = getTitle();
         memoContent.textContent = getContent();
