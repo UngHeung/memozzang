@@ -133,12 +133,12 @@ function setContentLength(value) {
     contentLength.textContent = value;
 }
 
-function getListOrder() {
-    return listOrder.checked;
+function setDispMemoList(value) {
+    dispMemoLIst.textContent = value;
 }
 
-function toggleListOrder() {
-    listOrder.checked = !getListOrder();
+function getListOrder() {
+    return listOrder.checked;
 }
 
 function getMaxLength() {
@@ -184,7 +184,7 @@ const reset = {
 
     // 리스트 화면 초기화
     display: () => {
-        dispMemoLIst.innerHTML = "";
+        setDispMemoList("");
     },
 
     // 리스트 전체 초기화
@@ -491,15 +491,3 @@ function addItem(type, memo, code) {
         check.emptyList();
     });
 }
-
-/**
- * ===== 키보드 입력 이벤트 // 사용자 매뉴얼 내용 =====
- * 1. 포커스 이동
- *  TAB -> INPUT 그룹 내에서 포커스 이동, SHIFT + TAB -> 반대 이동
- *  제목 -> ENTER -> 내용으로 포커스 이동
- * 2. 메모 저장
- *  내용 -> CTRL + ENTER -> 메모 바로 저장
- * 3. 메모 삭제
- *  CTRL + DEL 정렬 순서에 따라 제일 앞에 있는 메모 삭제
- *
- */
