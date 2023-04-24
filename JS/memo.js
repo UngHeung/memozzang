@@ -214,8 +214,9 @@ const check = {
 
     // 제목 입력 확인
     title: () => {
-        if (title.value === "") {
+        if (getTitle() === "") {
             alert("제목을 입력해주세요.");
+            title.focus();
             return false;
         }
         return true;
@@ -223,8 +224,9 @@ const check = {
 
     // 내용 입력 확인
     content: () => {
-        if (content.value === "") {
+        if (getContent() === "") {
             alert("내용을 입력해주세요.");
+            content.focus();
             return false;
         }
         return true;
@@ -337,8 +339,8 @@ const regiBtnEvent = (() => {
     regiBtn.addEventListener("click", () => {
         if (check.title() && check.content()) {
             addItem("add");
+            title.focus();
         }
-        title.focus();
     });
 })();
 
@@ -365,6 +367,7 @@ const listOrderEvent = (() => {
     listOrder.addEventListener("change", () => {
         reset.display();
         loadMemo();
+        title.focus();
     });
 })();
 
@@ -372,6 +375,7 @@ const manualEvent = (() => {
     // manual off event
     manualState.addEventListener("change", () => {
         displayManual();
+        title.focus();
     });
 })();
 
