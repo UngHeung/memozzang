@@ -367,7 +367,6 @@ const listOrderEvent = (() => {
     listOrder.addEventListener("change", () => {
         reset.display();
         loadMemo();
-        title.focus();
     });
 })();
 
