@@ -311,7 +311,7 @@ const windowKeyEvent = (() => {
          *  'CTRL' + 'DELETE' : delete memo
          */
 
-        if (e.ctrlKey === true && e.key === "m") {
+        if (e.ctrlKey === true && (e.key === "m" || e.key === "M")) {
             // manual on off event
             toggleManual();
             displayManual();

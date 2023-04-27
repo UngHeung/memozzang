@@ -1,6 +1,6 @@
 # MEMOZZANG
 
--   [메모짱 PAGE](httpsungheung.github.iomemozzang)
+-   [메모짱 PAGE](https://ungheung.github.io/memozzang/)
 -   [메모짱 GITHUB](https://github.com/UngHeung/memozzang)
 
 ## 메모짱
